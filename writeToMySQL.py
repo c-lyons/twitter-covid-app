@@ -85,7 +85,7 @@ def write_to_table(cleaned_tweets, db_user, db_password, db_host, db_name, db_ta
         cursor.execute('INSERT INTO tweets(created_at, \
                             tweet_id, lang, text, at_who )' \
                             'VALUES("%s", "%s", "%s", "%s", "%s")',
-                            tuple([col for col in row]))  # using list comp to keep dataframe col order for tuple
+                            (row['created_at'], row['tweet_id'], row['lang'], row['text'], row['at_who']))  # using list comp to keep dataframe col order for tuple
     # close the connection to the database.
     cnx.commit()
     cursor.close()

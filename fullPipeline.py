@@ -12,7 +12,7 @@ def main():
     writeToMySQL.main(cleaned_tweets)
     print('Write to Database successful.')
 
-schedule.every(10).minutes.do(main)
+schedule.every(5).minutes.do(main)
 
 while True:
     schedule.run_pending()
