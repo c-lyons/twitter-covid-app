@@ -13,7 +13,7 @@ from datetime import datetime
 
 def get_ats(tweets):
     """extracts who is @'ed in a tweet (if any)'"""
-    tweets['at_who'] = tweets.text.map(lambda x: [word for word in x.split() if word[0] == '@'])
+    tweets['at_who'] = tweets.text.map(lambda x: str([word for word in x.split() if word[0] == '@']))  # converting list to string for MySQL import handling
     tweets['text'] = tweets.text.map(lambda x: [word for word in x.split() if word[0] != '@'])
     tweets['text'] = tweets.text.map(lambda x: ' '.join(x))
     return tweets
@@ -49,7 +49,8 @@ def tweets_clean(tweets):
     tweets = get_ats(tweets)  # clean/ get @'s' from text
     tweets = clean_punc(tweets)  # removing hyphens/ apost and rejoining
     tweets = clean_special_chars(tweets)  # removing special chars from text
-    tweets.rename({'id':'tweets_id'},axis=1, inplace=True)
+    tweets.rename({'id':'tweet_id'},axis=1, inplace=True)
+    tweets.tweet_id = tweets.tweet_id.apply(pd.to_numeric)  # convert tweet_id to int from str
     return tweets
 
 # def get_key_words(tweets, keyWord):
